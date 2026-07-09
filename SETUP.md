@@ -68,9 +68,28 @@ The site will load live data from your sheet. Until then, it uses `data/cafes.js
 
 1. Push this project to GitHub.
 2. Go to [vercel.com](https://vercel.com) → **Add New Project** → import the repo.
-3. Deploy (no build step needed).
-4. Add your Vercel URL to the Maps API key restrictions.
-5. When you have a domain, point DNS to Vercel and add that URL too.
+3. Before deploying, add **Environment Variables** (Project Settings → Environment Variables):
+
+| Variable | Required | Notes |
+|----------|----------|-------|
+| `GOOGLE_MAPS_API_KEY` | Yes | Your Maps JavaScript API key |
+| `SHEET_CSV_URL` | No | Published Google Sheet CSV URL |
+| `HOME_LAT` | No | Defaults to `40.6706039` |
+| `HOME_LNG` | No | Defaults to `-73.9782784` |
+
+Apply to **Production**, **Preview**, and **Development** so all deploys work.
+
+4. Deploy. Vercel runs `npm run build`, which generates `js/config.js` from those variables.
+5. Add your Vercel URL to the Maps API key HTTP referrer restrictions, e.g.:
+
+   ```
+   https://your-project.vercel.app/*
+   https://*.vercel.app/*
+   ```
+
+6. When you have a custom domain, add that URL to the key restrictions too.
+
+> Locally you still use `js/config.js` (gitignored). On Vercel, config is generated at build time — never commit secrets.
 
 ## 5. Custom domain
 
