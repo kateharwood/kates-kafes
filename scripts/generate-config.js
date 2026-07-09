@@ -4,10 +4,29 @@
 const fs = require("fs");
 const path = require("path");
 
+const DEFAULT_HOME_LAT = 40.6706039;
+const DEFAULT_HOME_LNG = -73.9782784;
+
+function parseCoordinate(rawValue, name, min, max, fallback) {
+  if (rawValue === undefined || rawValue === "") {
+    return fallback;
+  }
+
+  const parsed = Number(rawValue);
+  if (!Number.isFinite(parsed) || parsed < min || parsed > max) {
+    console.error(
+      `${name} must be a number between ${min} and ${max}. Got: ${JSON.stringify(rawValue)}`
+    );
+    process.exit(1);
+  }
+
+  return parsed;
+}
+
 const apiKey = process.env.GOOGLE_MAPS_API_KEY || "";
 const sheetUrl = process.env.SHEET_CSV_URL || "";
-const homeLat = Number(process.env.HOME_LAT || "40.6706039");
-const homeLng = Number(process.env.HOME_LNG || "-73.9782784");
+const homeLat = parseCoordinate(process.env.HOME_LAT, "HOME_LAT", -90, 90, DEFAULT_HOME_LAT);
+const homeLng = parseCoordinate(process.env.HOME_LNG, "HOME_LNG", -180, 180, DEFAULT_HOME_LNG);
 
 if (process.env.VERCEL && !apiKey) {
   console.error(
