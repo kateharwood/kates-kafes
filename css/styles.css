@@ -1,0 +1,469 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: #1f2937;
+  background: #f6efe6;
+}
+
+body {
+  overflow: hidden;
+}
+
+#map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.site-header {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2;
+  pointer-events: none;
+  max-width: min(70vw, 320px);
+}
+
+.site-title {
+  margin: 0;
+  font-family: "Fredoka", "Comic Sans MS", cursive;
+  font-size: clamp(2rem, 7vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1;
+  color: #ff6b00;
+  text-shadow:
+    2px 2px 0 #ffd166,
+    4px 4px 0 #ff4d6d,
+    0 0 18px rgba(255, 107, 0, 0.35);
+}
+
+.site-title .letter {
+  display: inline-block;
+  transform: rotate(var(--tilt, 0deg));
+  animation: letter-wiggle 2.6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.1s);
+  transform-origin: center bottom;
+}
+
+.site-title .letter-space {
+  width: 0.28em;
+  animation: none;
+}
+
+@keyframes letter-wiggle {
+  0%,
+  100% {
+    transform: rotate(var(--tilt, 0deg)) translateY(0);
+  }
+  33% {
+    transform: rotate(calc(var(--tilt, 0deg) + 5deg)) translateY(-2px);
+  }
+  66% {
+    transform: rotate(calc(var(--tilt, 0deg) - 4deg)) translateY(1px);
+  }
+}
+
+.panel {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  z-index: 3;
+  width: min(320px, calc(100vw - 1.5rem));
+  max-height: calc(100vh - 1.5rem);
+  background: rgba(255, 252, 247, 0.96);
+  border: 2px solid #ffb703;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-toggle {
+  display: none;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #f0dcc0;
+  background: #fff8ef;
+  color: #7c4a1d;
+  font: 600 0.95rem "DM Sans", sans-serif;
+  padding: 0.85rem 1rem;
+  border-radius: 16px 16px 0 0;
+  cursor: pointer;
+}
+
+.panel-body {
+  padding: 0.9rem 1rem 1rem;
+  overflow: auto;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0.35rem 0;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-group {
+  border: 0;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.filter-group legend {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9a6b3f;
+  margin-bottom: 0.25rem;
+}
+
+.legend {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed #e8cfa8;
+}
+
+.legend-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9a6b3f;
+}
+
+.legend-scale {
+  display: flex;
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.legend-scale span {
+  flex: 1;
+}
+
+.legend-items {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+}
+
+.legend-items span {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.swatch-blue {
+  background: #1e88e5;
+}
+
+.swatch-gray {
+  background: #9e9e9e;
+}
+
+.swatch-dashed {
+  background: #1e88e5;
+  box-shadow: 0 0 0 2px #1565c0;
+  border-style: dashed;
+}
+
+.cafe-count {
+  margin: 0.85rem 0 0;
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+.loading,
+.error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 10;
+  background: rgba(246, 239, 230, 0.92);
+  font-weight: 600;
+}
+
+.error {
+  color: #b42318;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.cafe-card {
+  position: absolute;
+  z-index: 4;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  width: min(340px, calc(100vw - 1.5rem));
+  padding: 0;
+  background: #fffdf9;
+  border: 1px solid #e8cfa8;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(60, 40, 10, 0.14);
+  overflow: hidden;
+  animation: card-in 0.2s ease-out;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cafe-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.cafe-card-close {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-top: 0.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #9a8f82;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.cafe-card-close:hover {
+  background: #f5ebe0;
+  color: #7c4a1d;
+}
+
+.cafe-card-title {
+  margin: 0;
+  font-family: "Fredoka", "Comic Sans MS", cursive;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ff6b00;
+}
+
+.cafe-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 1rem 0.5rem;
+}
+
+.cafe-card-details {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.65rem 1rem;
+  border-top: 1px solid #f0e6d8;
+  border-bottom: 1px solid #f0e6d8;
+  background: #faf6f0;
+}
+
+.cafe-detail {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.cafe-detail dt {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9a8f82;
+}
+
+.cafe-detail dd {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #3d3429;
+}
+
+.cafe-stat-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.cafe-card-content {
+  padding: 0.85rem 1rem 0;
+}
+
+.cafe-card-content .cafe-card-section + .cafe-card-section {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #e8dcc8;
+}
+
+.cafe-card-section {
+  margin: 0;
+}
+
+.cafe-card-label {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9a8f82;
+}
+
+.cafe-card-food,
+.cafe-card-notes {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #3d3429;
+}
+
+.cafe-card-notes {
+  color: #5c5348;
+}
+
+.cafe-card-footer {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.cafe-card-maps {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #c2410c;
+  text-decoration: none;
+}
+
+.cafe-card-maps::after {
+  content: "→";
+  transition: transform 0.15s ease;
+}
+
+.cafe-card-maps:hover {
+  text-decoration: underline;
+}
+
+.cafe-card-maps:hover::after {
+  transform: translateX(2px);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-auto {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.badge-closed {
+  background: #eeeeee;
+  color: #616161;
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    top: auto;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    max-width: calc(100vw - 1.5rem);
+  }
+
+  .site-title {
+    font-size: clamp(1.7rem, 9vw, 2.4rem);
+  }
+
+  .panel {
+    left: 0.75rem;
+    right: 0.75rem;
+    top: auto;
+    bottom: 0.75rem;
+    width: auto;
+    max-height: 55vh;
+  }
+
+  .panel.collapsed .panel-body {
+    display: none;
+  }
+
+  .panel-toggle {
+    display: block;
+  }
+
+  .panel.collapsed {
+    max-height: none;
+  }
+
+  body.has-mobile-title .panel {
+    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.has-mobile-title.has-cafe-card .site-header {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cafe-card {
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.has-mobile-title .cafe-card {
+    bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}

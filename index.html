@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Kate's Kafes</title>
+    <meta name="description" content="A colorful map of Park Slope coffee shops" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1 class="site-title">Kate's Kafes</h1>
+    </header>
+
+    <aside class="panel" id="filter-panel">
+      <button class="panel-toggle" id="panel-toggle" type="button" aria-expanded="true" aria-controls="panel-body">
+        Filters
+      </button>
+      <div class="panel-body" id="panel-body">
+        <fieldset class="filter-group">
+          <legend>Status</legend>
+          <label class="filter-row">
+            <input type="checkbox" id="filter-tried" checked />
+            Tried
+          </label>
+          <label class="filter-row">
+            <input type="checkbox" id="filter-not-tried" checked />
+            Not tried yet
+          </label>
+          <label class="filter-row">
+            <input type="checkbox" id="filter-closed" />
+            Closed &amp; unratable
+          </label>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Food</legend>
+          <label class="filter-row">
+            <input type="checkbox" id="filter-real-food" />
+            Has real food
+          </label>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Walk time</legend>
+          <label class="filter-row"><input type="checkbox" class="walk-filter" value="under_15" checked /> &lt; 15 min</label>
+          <label class="filter-row"><input type="checkbox" class="walk-filter" value="15_19" checked /> 15–19 min</label>
+          <label class="filter-row"><input type="checkbox" class="walk-filter" value="20_plus" checked /> 20+ min</label>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Rating</legend>
+          <label class="filter-row"><input type="checkbox" class="rating-filter" value="3" checked /> 3 — a fave</label>
+          <label class="filter-row"><input type="checkbox" class="rating-filter" value="2" checked /> 2 — would regularly go</label>
+          <label class="filter-row"><input type="checkbox" class="rating-filter" value="1.5" checked /> 1.5</label>
+          <label class="filter-row"><input type="checkbox" class="rating-filter" value="1" checked /> 1 — meh</label>
+          <label class="filter-row"><input type="checkbox" class="rating-filter" value="0.5" checked /> 0.5</label>
+          <label class="filter-row"><input type="checkbox" class="rating-filter" value="0" checked /> 0 — never again</label>
+        </fieldset>
+
+        <div class="legend" id="legend">
+          <p class="legend-title">Legend</p>
+          <div class="legend-scale" id="legend-scale"></div>
+          <div class="legend-items">
+            <span><i class="swatch swatch-blue"></i> Not tried</span>
+            <span><i class="swatch swatch-gray"></i> Closed / unratable</span>
+            <span><i class="swatch swatch-dashed"></i> Auto-added (new)</span>
+          </div>
+        </div>
+
+        <p class="cafe-count" id="cafe-count"></p>
+      </div>
+    </aside>
+
+    <main id="map" role="application" aria-label="Coffee shop map"></main>
+
+    <article class="cafe-card hidden" id="cafe-card" aria-live="polite">
+      <header class="cafe-card-header">
+        <h2 class="cafe-card-title" id="cafe-card-title"></h2>
+        <button class="cafe-card-close" id="cafe-card-close" type="button" aria-label="Close">×</button>
+      </header>
+      <div class="cafe-card-badges hidden" id="cafe-card-badges"></div>
+      <dl class="cafe-card-details" id="cafe-card-details"></dl>
+      <div class="cafe-card-content hidden" id="cafe-card-content">
+        <div class="cafe-card-section hidden" id="cafe-card-food-wrap">
+          <p class="cafe-card-label">Food</p>
+          <p class="cafe-card-food" id="cafe-card-food"></p>
+        </div>
+        <div class="cafe-card-section hidden" id="cafe-card-notes-wrap">
+          <p class="cafe-card-label">Notes</p>
+          <p class="cafe-card-notes" id="cafe-card-notes"></p>
+        </div>
+      </div>
+      <footer class="cafe-card-footer">
+        <a class="cafe-card-maps hidden" id="cafe-card-maps" href="#" target="_blank" rel="noopener noreferrer">
+          Open in Google Maps
+        </a>
+      </footer>
+    </article>
+
+    <div class="loading" id="loading">Loading kafes…</div>
+    <div class="error hidden" id="error"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/app.js" defer></script>
+  </body>
+</html>
