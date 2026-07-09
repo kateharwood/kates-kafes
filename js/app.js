@@ -47,14 +47,21 @@
   let clusterer;
   let allCafes = [];
   let markers = [];
+  let hasInitialFit = false;
   const markerById = new Map();
 
   const loadingEl = document.getElementById("loading");
   const errorEl = document.getElementById("error");
   const countEl = document.getElementById("cafe-count");
+  const countFooterEl = document.getElementById("cafe-count-footer");
   const panel = document.getElementById("filter-panel");
   const panelToggle = document.getElementById("panel-toggle");
+  const panelBody = document.getElementById("panel-body");
+  const panelSheetTop = panel.querySelector(".panel-sheet-top");
+  const panelBackdrop = document.getElementById("panel-backdrop");
+  const filterBadge = document.getElementById("filter-badge");
   const cafeCard = document.getElementById("cafe-card");
+  const cafeCardHeader = cafeCard.querySelector(".cafe-card-header");
   const cafeCardClose = document.getElementById("cafe-card-close");
   const cafeCardTitle = document.getElementById("cafe-card-title");
   const cafeCardBadges = document.getElementById("cafe-card-badges");
@@ -66,22 +73,384 @@
   const cafeCardNotes = document.getElementById("cafe-card-notes");
   const cafeCardMaps = document.getElementById("cafe-card-maps");
 
-  if (window.innerWidth <= 720) {
-    document.body.classList.add("has-mobile-title");
-    panel.classList.add("collapsed");
-    panelToggle.setAttribute("aria-expanded", "false");
+  const isMobileLayout = () => window.matchMedia("(max-width: 720px)").matches;
+  let wasMobileLayout = isMobileLayout();
+
+  function getMapPadding() {
+    if (!isMobileLayout()) {
+      return { top: 70, right: 340, bottom: 90, left: 40 };
+    }
+    const cardOpen = document.body.classList.contains("has-cafe-card");
+    return {
+      top: 88,
+      right: 28,
+      bottom: 36,
+      left: 28,
+    };
   }
 
-  panelToggle.addEventListener("click", () => {
-    const collapsed = panel.classList.toggle("collapsed");
-    panelToggle.setAttribute("aria-expanded", String(!collapsed));
-  });
+  function updateMapForLayout() {
+    if (!map) return;
+    const mobile = isMobileLayout();
+    map.setOptions({
+      gestureHandling: mobile ? "greedy" : "auto",
+      fullscreenControl: !mobile,
+      zoomControl: !mobile,
+    });
+  }
+
+  function updateMobileLayout() {
+    const mobile = isMobileLayout();
+
+    if (!mobile) {
+      resetPanelDragStyles();
+      resetCafeCardDragStyles();
+      panel.classList.remove("collapsed");
+      panelToggle.setAttribute("aria-expanded", "true");
+      panelToggle.setAttribute("aria-label", "Filters");
+      panelBackdrop.classList.add("hidden");
+      panelBackdrop.classList.remove("visible");
+      document.body.classList.remove("filters-open");
+    } else if (!document.body.classList.contains("filters-open")) {
+      closeFilterPanel();
+    }
+
+    if (map && mobile !== wasMobileLayout) {
+      wasMobileLayout = mobile;
+      updateMapForLayout();
+      if (clusterer) {
+        clusterer.setMap(null);
+        clusterer = null;
+      }
+      buildMarkers();
+    }
+  }
+
+  updateMobileLayout();
+  if (isMobileLayout()) {
+    closeFilterPanel();
+  }
+
+  function resetPanelDragStyles() {
+    panel.classList.remove("is-dragging");
+    panel.style.transform = "";
+    panel.style.transition = "";
+    if (panelBackdrop) {
+      panelBackdrop.style.opacity = "";
+    }
+  }
+
+  function openFilterPanel() {
+    if (!isMobileLayout()) return;
+    resetPanelDragStyles();
+    panel.classList.remove("collapsed");
+    panelToggle.setAttribute("aria-expanded", "true");
+    panelToggle.setAttribute("aria-label", "Close filters");
+    panelBackdrop.classList.remove("hidden");
+    panelBackdrop.classList.add("visible");
+    panelBackdrop.setAttribute("aria-hidden", "false");
+    document.body.classList.add("filters-open");
+  }
+
+  function closeFilterPanel() {
+    if (!isMobileLayout()) return;
+    resetPanelDragStyles();
+    panel.classList.add("collapsed");
+    panelToggle.setAttribute("aria-expanded", "false");
+    panelToggle.setAttribute("aria-label", "Open filters");
+    panelBackdrop.classList.remove("visible");
+    panelBackdrop.classList.add("hidden");
+    panelBackdrop.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("filters-open");
+  }
+
+  function toggleFilterPanel() {
+    if (panel.classList.contains("collapsed")) {
+      openFilterPanel();
+    } else {
+      closeFilterPanel();
+    }
+  }
+
+  panelToggle.addEventListener("click", toggleFilterPanel);
+  panelBackdrop.addEventListener("click", closeFilterPanel);
+
+  function initFilterPanelDrag() {
+    const DRAG_START = 8;
+    const DISMISS_RATIO = 0.22;
+
+    let pointerId = null;
+    let startY = 0;
+    let dragOffset = 0;
+    let dragging = false;
+    let tracking = false;
+    let dragFromBody = false;
+
+    function panelIsOpen() {
+      return isMobileLayout() && !panel.classList.contains("collapsed");
+    }
+
+    function isInteractiveTarget(target) {
+      return Boolean(target.closest("input, button, a, label"));
+    }
+
+    function canDragFromTarget(target) {
+      if (!panelIsOpen() || isInteractiveTarget(target)) return false;
+      if (panelSheetTop && panelSheetTop.contains(target)) return true;
+      if (panelBody && panelBody.contains(target) && panelBody.scrollTop <= 0) return true;
+      return false;
+    }
+
+    function setDragOffset(offset) {
+      dragOffset = Math.max(0, offset);
+      panel.style.transform = "translateY(" + dragOffset + "px)";
+      if (panelBackdrop) {
+        const progress = Math.min(1, dragOffset / Math.max(panel.offsetHeight, 1));
+        panelBackdrop.style.opacity = String(1 - progress * 0.55);
+      }
+    }
+
+    function snapBack() {
+      panel.classList.remove("is-dragging");
+      panel.style.transition = "transform 0.25s ease";
+      panel.style.transform = "translateY(0)";
+      if (panelBackdrop) {
+        panelBackdrop.style.transition = "opacity 0.25s ease";
+        panelBackdrop.style.opacity = "1";
+      }
+      panel.addEventListener(
+        "transitionend",
+        () => {
+          resetPanelDragStyles();
+        },
+        { once: true }
+      );
+    }
+
+    function finishDrag() {
+      const threshold = Math.max(96, panel.offsetHeight * DISMISS_RATIO);
+      if (dragOffset >= threshold) {
+        closeFilterPanel();
+        return;
+      }
+      snapBack();
+    }
+
+    panel.addEventListener(
+      "pointerdown",
+      (event) => {
+        if (!canDragFromTarget(event.target)) return;
+        tracking = true;
+        dragging = false;
+        dragFromBody = panelBody && panelBody.contains(event.target) && !panelSheetTop.contains(event.target);
+        pointerId = event.pointerId;
+        startY = event.clientY;
+        dragOffset = 0;
+      },
+      { passive: true }
+    );
+
+    panel.addEventListener(
+      "pointermove",
+      (event) => {
+        if (!tracking || event.pointerId !== pointerId) return;
+
+        const deltaY = event.clientY - startY;
+
+        if (!dragging) {
+          if (deltaY > DRAG_START && (!dragFromBody || panelBody.scrollTop <= 0)) {
+            dragging = true;
+            panel.classList.add("is-dragging");
+            panel.setPointerCapture(pointerId);
+          } else if (deltaY < -DRAG_START) {
+            tracking = false;
+            pointerId = null;
+            return;
+          } else {
+            return;
+          }
+        }
+
+        event.preventDefault();
+        setDragOffset(deltaY);
+      },
+      { passive: false }
+    );
+
+    function endDrag(event) {
+      if (!tracking || event.pointerId !== pointerId) return;
+      tracking = false;
+      pointerId = null;
+
+      if (dragging) {
+        dragging = false;
+        if (panel.hasPointerCapture(event.pointerId)) {
+          panel.releasePointerCapture(event.pointerId);
+        }
+        finishDrag();
+        return;
+      }
+
+      dragFromBody = false;
+    }
+
+    panel.addEventListener("pointerup", endDrag);
+    panel.addEventListener("pointercancel", endDrag);
+  }
+
+  initFilterPanelDrag();
+
+  function resetCafeCardDragStyles() {
+    cafeCard.classList.remove("is-dragging");
+    cafeCard.style.transform = "";
+    cafeCard.style.transition = "";
+    cafeCard.style.opacity = "";
+  }
+
+  function initCafeCardDrag() {
+    const DRAG_START = 8;
+    const DISMISS_RATIO = 0.18;
+
+    let pointerId = null;
+    let startY = 0;
+    let dragOffset = 0;
+    let dragging = false;
+    let tracking = false;
+
+    function cardIsVisible() {
+      return isMobileLayout() && !cafeCard.classList.contains("hidden");
+    }
+
+    function canDragFromTarget(target) {
+      if (!cardIsVisible()) return false;
+      if (!cafeCardHeader || !cafeCardHeader.contains(target)) return false;
+      return !target.closest("#cafe-card-close, a, button");
+    }
+
+    function setDragOffset(offset) {
+      dragOffset = Math.max(0, offset);
+      cafeCard.style.transform = "translateY(" + dragOffset + "px)";
+      cafeCard.style.opacity = String(Math.max(0.35, 1 - dragOffset / 280));
+    }
+
+    function snapBack() {
+      cafeCard.classList.remove("is-dragging");
+      cafeCard.style.transition = "transform 0.25s ease, opacity 0.25s ease";
+      cafeCard.style.transform = "translateY(0)";
+      cafeCard.style.opacity = "1";
+      cafeCard.addEventListener(
+        "transitionend",
+        () => {
+          resetCafeCardDragStyles();
+        },
+        { once: true }
+      );
+    }
+
+    function finishDrag() {
+      const threshold = Math.max(72, cafeCard.offsetHeight * DISMISS_RATIO);
+      if (dragOffset >= threshold) {
+        hideCafeCard();
+        return;
+      }
+      snapBack();
+    }
+
+    cafeCard.addEventListener(
+      "pointerdown",
+      (event) => {
+        if (!canDragFromTarget(event.target)) return;
+        tracking = true;
+        dragging = false;
+        pointerId = event.pointerId;
+        startY = event.clientY;
+        dragOffset = 0;
+      },
+      { passive: true }
+    );
+
+    cafeCard.addEventListener(
+      "pointermove",
+      (event) => {
+        if (!tracking || event.pointerId !== pointerId) return;
+
+        const deltaY = event.clientY - startY;
+        if (!dragging) {
+          if (deltaY > DRAG_START) {
+            dragging = true;
+            cafeCard.classList.add("is-dragging");
+            cafeCard.setPointerCapture(pointerId);
+          } else if (deltaY < -DRAG_START) {
+            tracking = false;
+            pointerId = null;
+            return;
+          } else {
+            return;
+          }
+        }
+
+        event.preventDefault();
+        setDragOffset(deltaY);
+      },
+      { passive: false }
+    );
+
+    function endDrag(event) {
+      if (!tracking || event.pointerId !== pointerId) return;
+      tracking = false;
+      pointerId = null;
+
+      if (dragging) {
+        dragging = false;
+        if (cafeCard.hasPointerCapture(event.pointerId)) {
+          cafeCard.releasePointerCapture(event.pointerId);
+        }
+        finishDrag();
+      }
+    }
+
+    cafeCard.addEventListener("pointerup", endDrag);
+    cafeCard.addEventListener("pointercancel", endDrag);
+  }
+
+  initCafeCardDrag();
+
+  function countActiveFilters() {
+    let count = 0;
+    if (!document.getElementById("filter-tried").checked) count += 1;
+    if (!document.getElementById("filter-not-tried").checked) count += 1;
+    if (document.getElementById("filter-closed").checked) count += 1;
+    if (document.getElementById("filter-real-food").checked) count += 1;
+    if (document.querySelectorAll(".rating-filter:checked").length < 6) count += 1;
+    return count;
+  }
+
+  function updateFilterBadge() {
+    if (!filterBadge) return;
+    const count = countActiveFilters();
+    if (count > 0) {
+      filterBadge.textContent = String(count);
+      filterBadge.classList.remove("hidden");
+      filterBadge.setAttribute("aria-label", count + " active filters");
+    } else {
+      filterBadge.textContent = "";
+      filterBadge.classList.add("hidden");
+      filterBadge.removeAttribute("aria-label");
+    }
+  }
 
   cafeCardClose.addEventListener("click", hideCafeCard);
 
   document.querySelectorAll("#filter-panel input").forEach((input) => {
-    input.addEventListener("change", applyFilters);
+    input.addEventListener("change", () => {
+      updateFilterBadge();
+      applyFilters();
+    });
   });
+
+  updateFilterBadge();
+
+  window.addEventListener("resize", updateMobileLayout);
 
   buildLegendScale();
   initWigglyTitle();
@@ -155,21 +524,49 @@
     return interpolateColor(cafe.rating);
   }
 
+  function getMarkerSize() {
+    return isMobileLayout() ? 36 : 28;
+  }
+
   function makeMarkerIcon(color, dashed) {
+    const size = getMarkerSize();
+    const center = size / 2;
+    const outerRadius = center - 1;
+    const innerRadius = outerRadius - 2.5;
     const ring = dashed
-      ? '<circle cx="14" cy="14" r="12.5" fill="none" stroke="#1565c0" stroke-width="2" stroke-dasharray="4 3"/>'
+      ? '<circle cx="' +
+        center +
+        '" cy="' +
+        center +
+        '" r="' +
+        (outerRadius - 0.5) +
+        '" fill="none" stroke="#1565c0" stroke-width="2" stroke-dasharray="4 3"/>'
       : "";
     const svg =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="' +
+      size +
+      '" height="' +
+      size +
+      '" viewBox="0 0 ' +
+      size +
+      " " +
+      size +
+      '">' +
       ring +
-      '<circle cx="14" cy="14" r="10" fill="' +
+      '<circle cx="' +
+      center +
+      '" cy="' +
+      center +
+      '" r="' +
+      innerRadius +
+      '" fill="' +
       color +
       '" stroke="#ffffff" stroke-width="2.5"/>' +
       "</svg>";
     return {
       url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg),
-      scaledSize: new google.maps.Size(28, 28),
-      anchor: new google.maps.Point(14, 14),
+      scaledSize: new google.maps.Size(size, size),
+      anchor: new google.maps.Point(center, center),
     };
   }
 
@@ -329,7 +726,6 @@
     const showTried = document.getElementById("filter-tried").checked;
     const showNotTried = document.getElementById("filter-not-tried").checked;
     const onlyRealFood = document.getElementById("filter-real-food").checked;
-    const walkFilters = getSelectedValues(".walk-filter");
     const ratingFilters = getSelectedValues(".rating-filter");
 
     if (cafe.status === "closed" || cafe.status === "unratable") {
@@ -342,10 +738,6 @@
 
     if (onlyRealFood && normalizeYesNo(cafe.food_yes_or_no) !== "Yes") return false;
 
-    if (cafe.walk_bucket && walkFilters.length && !walkFilters.includes(cafe.walk_bucket)) {
-      return false;
-    }
-
     if (tried && ratingFilters.length) {
       const ratingKey = String(Number(cafe.rating));
       if (!ratingFilters.includes(ratingKey)) return false;
@@ -355,12 +747,41 @@
   }
 
   function hideCafeCard() {
+    resetCafeCardDragStyles();
     cafeCard.classList.add("hidden");
     cafeCard.style.borderLeft = "";
     document.body.classList.remove("has-cafe-card");
   }
 
+  function panToWithScreenOffset(lat, lng, offsetX, offsetY) {
+    const projection = map.getProjection();
+    const zoom = map.getZoom();
+    if (!projection || zoom == null) {
+      map.panTo({ lat, lng });
+      return;
+    }
+
+    const scale = Math.pow(2, zoom);
+    const worldPoint = projection.fromLatLngToPoint(new google.maps.LatLng(lat, lng));
+    const newCenterPoint = new google.maps.Point(
+      worldPoint.x - offsetX / scale,
+      worldPoint.y + offsetY / scale
+    );
+    map.panTo(projection.fromPointToLatLng(newCenterPoint));
+  }
+
+  function focusCafeOnMap(cafe) {
+    if (!map || cafe.lat == null || cafe.lng == null || !isMobileLayout()) return;
+
+    const cardHeight = cafeCard.getBoundingClientRect().height;
+    const offsetY = Math.round(Math.min(cardHeight * 0.4 + 28, window.innerHeight * 0.2));
+    panToWithScreenOffset(cafe.lat, cafe.lng, 0, offsetY);
+  }
+
   function showCafeCard(cafe) {
+    if (isMobileLayout()) {
+      closeFilterPanel();
+    }
     const color = markerColor(cafe);
     cafeCard.style.borderLeft = "4px solid " + color;
     cafeCardTitle.textContent = cafe.name;
@@ -432,6 +853,7 @@
 
     cafeCard.classList.remove("hidden");
     document.body.classList.add("has-cafe-card");
+    focusCafeOnMap(cafe);
   }
 
   function escapeHtml(value) {
@@ -443,13 +865,15 @@
   }
 
   function createClusterer(mapInstance, markerList) {
+    const mobile = isMobileLayout();
     return new markerClusterer.MarkerClusterer({
       map: mapInstance,
       markers: markerList,
       algorithm: new markerClusterer.SuperClusterAlgorithm({
-        maxZoom: 13,
-        radius: 48,
-        minPoints: 3,
+        minZoom: 14,
+        maxZoom: mobile ? 16 : 15,
+        radius: mobile ? 38 : 32,
+        minPoints: 4,
       }),
     });
   }
@@ -484,18 +908,19 @@
       clusterer = createClusterer(map, markers);
     }
 
-    countEl.textContent = visible.length + " of " + allCafes.length + " kafes shown";
+    const countText = visible.length + " of " + allCafes.length + " kafes shown";
+    countEl.textContent = countText;
+    if (countFooterEl) countFooterEl.textContent = countText;
 
-    if (visible.length) {
+    if (visible.length && !hasInitialFit) {
       const bounds = new google.maps.LatLngBounds();
       visible.forEach((cafe) => bounds.extend({ lat: cafe.lat, lng: cafe.lng }));
-      const mobile = window.innerWidth <= 720;
-      map.fitBounds(
-        bounds,
-        mobile
-          ? { top: 50, right: 40, bottom: 220, left: 40 }
-          : { top: 70, right: 340, bottom: 90, left: 40 }
-      );
+      map.fitBounds(bounds, getMapPadding());
+      google.maps.event.addListenerOnce(map, "idle", () => {
+        const zoom = map.getZoom();
+        if (zoom != null) map.setZoom(zoom + 1);
+      });
+      hasInitialFit = true;
     }
   }
 
@@ -566,12 +991,15 @@
 
       map = new google.maps.Map(document.getElementById("map"), {
         center: config.HOME || { lat: 40.6706039, lng: -73.9782784 },
-        zoom: 14,
+        zoom: 15,
         styles: MAP_STYLES,
         mapTypeControl: false,
         streetViewControl: false,
-        fullscreenControl: true,
+        clickableIcons: false,
+        disableDefaultUI: false,
       });
+
+      updateMapForLayout();
 
       map.addListener("click", hideCafeCard);
       buildMarkers();
