@@ -71,15 +71,17 @@
           <label class="filter-row"><input type="checkbox" class="rating-filter" value="0" checked /> 0 — never again</label>
         </fieldset>
 
-        <details class="legend legend-collapsible" id="legend">
-          <summary class="legend-title">Legend</summary>
-          <div class="legend-scale" id="legend-scale"></div>
+        <div class="legend" id="legend">
+          <p class="legend-title">Legend</p>
+          <div class="legend-rating">
+            <div class="legend-scale" id="legend-scale"></div>
+            <div class="legend-scale-labels" id="legend-scale-labels"></div>
+          </div>
           <div class="legend-items">
             <span><i class="swatch swatch-blue"></i> Not tried</span>
             <span><i class="swatch swatch-gray"></i> Closed / unratable</span>
-            <span><i class="swatch swatch-dashed"></i> Auto-added (new)</span>
           </div>
-        </details>
+        </div>
 
         <p class="cafe-count cafe-count-inline" id="cafe-count"></p>
         </div>

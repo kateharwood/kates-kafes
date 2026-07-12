@@ -185,11 +185,6 @@ body.filters-open {
   border-top: 1px dashed #e8cfa8;
 }
 
-.legend-collapsible:not([open]) .legend-scale,
-.legend-collapsible:not([open]) .legend-items {
-  display: none;
-}
-
 .legend-title {
   margin: 0 0 0.5rem;
   font-size: 0.78rem;
@@ -199,17 +194,41 @@ body.filters-open {
   color: #9a6b3f;
 }
 
+.legend-rating {
+  margin-bottom: 0.6rem;
+}
+
 .legend-scale {
   display: flex;
   height: 12px;
   border-radius: 999px;
   overflow: hidden;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.2rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .legend-scale span {
   flex: 1;
+}
+
+.legend-scale-labels {
+  display: flex;
+  font-size: 0.68rem;
+  line-height: 1.2;
+  color: #6b7280;
+}
+
+.legend-scale-labels span {
+  flex: 1;
+  text-align: center;
+}
+
+.legend-scale-labels span:first-child {
+  text-align: left;
+}
+
+.legend-scale-labels span:last-child {
+  text-align: right;
 }
 
 .legend-items {
@@ -239,12 +258,6 @@ body.filters-open {
 
 .swatch-gray {
   background: #9e9e9e;
-}
-
-.swatch-dashed {
-  background: #1e88e5;
-  box-shadow: 0 0 0 2px #1565c0;
-  border-style: dashed;
 }
 
 .cafe-count {
@@ -463,33 +476,14 @@ body.filters-open {
   letter-spacing: 0.03em;
 }
 
-.badge-auto {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
 .badge-closed {
   background: #eeeeee;
   color: #616161;
 }
 
 @media (min-width: 721px) {
-  .legend-collapsible summary.legend-title {
-    pointer-events: none;
-    cursor: default;
-  }
-
-  .legend-collapsible summary.legend-title::after {
+  .panel-sheet-footer {
     display: none;
-  }
-
-  .legend-collapsible .legend-scale,
-  .legend-collapsible .legend-items {
-    display: block;
-  }
-
-  .legend-collapsible .legend-items {
-    display: grid;
   }
 }
 
@@ -664,49 +658,6 @@ body.filters-open {
   .filter-row input[type="checkbox"] {
     width: 1.45rem;
     height: 1.45rem;
-  }
-
-  .legend-collapsible {
-    margin-top: 0.75rem;
-    padding-top: 0.65rem;
-    border-top: 1px dashed #e8cfa8;
-  }
-
-  .legend-collapsible summary.legend-title {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0;
-    padding: 0.35rem 0;
-    min-height: 2.75rem;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .legend-collapsible summary.legend-title::after {
-    content: "Show";
-    font-size: 0.82rem;
-    font-weight: 600;
-    text-transform: none;
-    letter-spacing: 0;
-    color: #c2410c;
-  }
-
-  .legend-collapsible[open] summary.legend-title::after {
-    content: "Hide";
-  }
-
-  .legend-collapsible[open] .legend-scale,
-  .legend-collapsible[open] .legend-items {
-    display: block;
-  }
-
-  .legend-collapsible[open] .legend-items {
-    display: grid;
-  }
-
-  .legend-collapsible .legend-scale {
-    margin-top: 0.5rem;
   }
 
   .cafe-card {

@@ -5,7 +5,8 @@
   "description": "Kate's Kafes — a map of Park Slope coffee shops",
   "scripts": {
     "build": "node scripts/generate-config.js",
-    "start": "python3 -m http.server 3000",
-    "generate-data": "python3 scripts/generate-data.py"
+    "start": "node scripts/dev-server.js",
+    "generate-data": "python3 scripts/generate-data.py",
+    "discover": "node scripts/discover-cafes.js"
   }
 }

@@ -1,0 +1,551 @@
+{
+  "names": [
+    "McDonald's",
+    "Chelsea Piers Fitness",
+    "Sea Lion Store and Cafe",
+    "Starbucks",
+    "Dunkin",
+    "Blank Street",
+    "Emma's Torch",
+    "Auntie Anne's",
+    "Parkslope Candy",
+    "Canteen",
+    "Juice Press",
+    "Mollys Pies",
+    "Jakes Cakes",
+    "Marbre",
+    "Whole Foods Bakery",
+    "ByClio Bakery",
+    "Everybody Eats",
+    "Maison du Rouleau",
+    "Southside Coffee",
+    "Regina Bakery",
+    "Cafe Dean",
+    "Hemo's spot Juice Bar & Cafe",
+    "Four & Twenty Blackbird Commissary Bakery",
+    "Sixteen Mill Bakeshop (window service)",
+    "Paris Baguette",
+    "Cinnabon",
+    "Pure Green - Juice Bar Dean Street",
+    "Little Cupcake Bakeshop",
+    "T L State Distributors",
+    "Radio Bakery",
+    "Claudio's Kitchen",
+    "Buttermilk Bakeshop",
+    "Coffeine",
+    "Slope Comic & Collectibles",
+    "Association of Professional Art Advisors",
+    "Brooklyn Pediatric Society",
+    "Park Slope Center for Successful Aging",
+    "Ride For Mental Health",
+    "Institute for Career and Technical Education",
+    "wright ingraham institute",
+    "Brooklyn Superhero Supply Co.",
+    "Little Free Library",
+    "The Ripped Bodice",
+    "Sprout Enterprise",
+    "Gowanus Canal Conservancy",
+    "Galaxy Collectibles",
+    "Collective Hands Foundation",
+    "Friends of Privately-Owned Public Space",
+    "The Center for Urban Pedagogy",
+    "Baltic Street Into Action",
+    "Voices of Women Organizing",
+    "Green Generations",
+    "African-American Public Radio Consortium",
+    "Enable Mothers",
+    "Spaceworks NYC, Inc.",
+    "Park Slope Armory YMCA",
+    "Library-On-Call",
+    "More Than Surviving",
+    "CHiPS",
+    "Dare2Draw",
+    "Willie Mae Rock Camp",
+    "Ezra Jack Keats Foundation",
+    "Phase 4",
+    "Fifth Avenue Committee",
+    "Nuclear Voices",
+    "Boys & Girlstown of Ny",
+    "Guitar Among Others Inc",
+    "Music that Makes Community",
+    "Student Dream",
+    "Petals-N-Belles",
+    "Reentry Essentials, Inc.",
+    "Project Reach Youth",
+    "Look & Listen",
+    "Gowanus Dredgers Canoe Club Boathouse",
+    "Writing Our Own Stories Inc.",
+    "International Medical Response",
+    "Park Slope Fifth Avenue Business Improvement District (BID)",
+    "Rebuilding Together NYC",
+    "Van Alen Institute",
+    "POWERHOUSE on 8th",
+    "Troubled Sleep",
+    "¡CHAU, LUNA!",
+    "Honey & Wax Booksellers"
+  ],
+  "entries": [
+    {
+      "name": "Parkslope Candy",
+      "placeId": "ChIJXU8X6gJbwokR1pkl8DsnFa4",
+      "addedAt": "2026-07-12T22:31:29.501Z",
+      "source": "review"
+    },
+    {
+      "name": "Canteen",
+      "placeId": "ChIJAd1MCJ1bwokRe4KevYFCBH4",
+      "addedAt": "2026-07-12T22:41:54.761Z",
+      "source": "review"
+    },
+    {
+      "name": "Juice Press",
+      "placeId": "ChIJp_5m4ANbwokRXzK4uN_-REY",
+      "addedAt": "2026-07-12T22:50:44.325Z",
+      "source": "review"
+    },
+    {
+      "name": "Mollys Pies",
+      "placeId": "ChIJM4P1IANbwokR1kK-0SdK6Sc",
+      "addedAt": "2026-07-12T22:52:05.091Z",
+      "source": "review"
+    },
+    {
+      "name": "Jakes Cakes",
+      "placeId": "ChIJ-adzh1NbwokRfHsJqULAVys",
+      "addedAt": "2026-07-12T22:52:10.684Z",
+      "source": "review"
+    },
+    {
+      "name": "Marbre",
+      "placeId": "ChIJpUuIK0BbwokRUtgsMTXgPQM",
+      "addedAt": "2026-07-12T22:52:29.588Z",
+      "source": "review"
+    },
+    {
+      "name": "Whole Foods Bakery",
+      "placeId": "ChIJ11DpHABbwokRZBuZQbMaGcQ",
+      "addedAt": "2026-07-12T22:52:41.624Z",
+      "source": "review"
+    },
+    {
+      "name": "ByClio Bakery",
+      "placeId": "ChIJw52j4W9ZwokRUxsssuZyD_c",
+      "addedAt": "2026-07-12T22:52:58.629Z",
+      "source": "review"
+    },
+    {
+      "name": "Everybody Eats",
+      "placeId": "ChIJl8AkhVVawokRZv4EvtEkWTs",
+      "addedAt": "2026-07-12T22:53:06.291Z",
+      "source": "review"
+    },
+    {
+      "name": "Maison du Rouleau",
+      "placeId": "ChIJYUMMzklbwokR_YauJSPWXpQ",
+      "addedAt": "2026-07-12T22:53:17.351Z",
+      "source": "review"
+    },
+    {
+      "name": "Southside Coffee",
+      "placeId": "ChIJU8t5Q6NZwokRArb-jBlcl38",
+      "addedAt": "2026-07-12T22:54:24.089Z",
+      "source": "review"
+    },
+    {
+      "name": "Regina Bakery",
+      "placeId": "ChIJ0S9SNx5bwokRBzeEge2jRx8",
+      "addedAt": "2026-07-12T22:54:46.148Z",
+      "source": "review"
+    },
+    {
+      "name": "Cafe Dean",
+      "placeId": "ChIJgcisLwBbwokRBHAS6BOv8xE",
+      "addedAt": "2026-07-12T22:54:57.979Z",
+      "source": "review"
+    },
+    {
+      "name": "Hemo's spot Juice Bar & Cafe",
+      "placeId": "ChIJkZUCPnJbwokRn_DiNfmVFec",
+      "addedAt": "2026-07-12T22:55:12.250Z",
+      "source": "review"
+    },
+    {
+      "name": "Four & Twenty Blackbird Commissary Bakery",
+      "placeId": "ChIJMcf3uyBbwokRyszJ-QVr95E",
+      "addedAt": "2026-07-12T22:55:19.525Z",
+      "source": "review"
+    },
+    {
+      "name": "Sixteen Mill Bakeshop (window service)",
+      "placeId": "ChIJJ2TPLnJbwokR0AeNp3yZN44",
+      "addedAt": "2026-07-12T22:55:28.462Z",
+      "source": "review"
+    },
+    {
+      "name": "Paris Baguette",
+      "placeId": "ChIJr4svPwBbwokR81tfVdkodiU",
+      "addedAt": "2026-07-12T22:55:59.510Z",
+      "source": "review"
+    },
+    {
+      "name": "Cinnabon",
+      "placeId": "ChIJM2N4pQFbwokR0nN8csb8UtU",
+      "addedAt": "2026-07-12T22:56:07.276Z",
+      "source": "review"
+    },
+    {
+      "name": "Pure Green - Juice Bar Dean Street",
+      "placeId": "ChIJ05zsWgBbwokRIgJ36m3cv7g",
+      "addedAt": "2026-07-12T22:56:10.492Z",
+      "source": "review"
+    },
+    {
+      "name": "Auntie Anne's",
+      "placeId": "ChIJG9SSKR5bwokRNPVLq-iNlMA",
+      "addedAt": "2026-07-12T22:56:14.801Z",
+      "source": "review"
+    },
+    {
+      "name": "Little Cupcake Bakeshop",
+      "placeId": "ChIJU9PweqZbwokRKNVRvloctiI",
+      "addedAt": "2026-07-12T22:56:31.818Z",
+      "source": "review"
+    },
+    {
+      "name": "T L State Distributors",
+      "placeId": "ChIJedYY_PhawokRQnaEPZSaO_4",
+      "addedAt": "2026-07-12T22:56:38.103Z",
+      "source": "review"
+    },
+    {
+      "name": "Radio Bakery",
+      "placeId": "ChIJ7fQOVA1bwokRjdAmG89tzcE",
+      "addedAt": "2026-07-12T22:56:57.230Z",
+      "source": "review"
+    },
+    {
+      "name": "Claudio's Kitchen",
+      "placeId": "ChIJl7PA9_FbwokRkEIsHUboxk4",
+      "addedAt": "2026-07-12T22:57:12.900Z",
+      "source": "review"
+    },
+    {
+      "name": "Buttermilk Bakeshop",
+      "placeId": "ChIJqWKaWdRbwokRCnu21RHgrck",
+      "addedAt": "2026-07-12T22:57:28.533Z",
+      "source": "review"
+    },
+    {
+      "name": "Coffeine",
+      "placeId": "ChIJs--icI9bwokR3rBhCaxatTU",
+      "addedAt": "2026-07-12T22:57:30.162Z",
+      "source": "review"
+    },
+    {
+      "name": "Slope Comic & Collectibles",
+      "placeId": "ChIJbfGdph1bwokR6iqmB4_9VcE",
+      "addedAt": "2026-07-12T22:58:07.636Z",
+      "source": "review"
+    },
+    {
+      "name": "Association of Professional Art Advisors",
+      "placeId": "ChIJFwaokAFbwokRboIw-EfERzw",
+      "addedAt": "2026-07-12T22:58:09.643Z",
+      "source": "review"
+    },
+    {
+      "name": "Brooklyn Pediatric Society",
+      "placeId": "ChIJz0PQswNbwokRn2z0ZCrFBLc",
+      "addedAt": "2026-07-12T22:58:15.662Z",
+      "source": "review"
+    },
+    {
+      "name": "Park Slope Center for Successful Aging",
+      "placeId": "ChIJp5YJWQJbwokRLobFYl87Ygg",
+      "addedAt": "2026-07-12T22:58:17.557Z",
+      "source": "review"
+    },
+    {
+      "name": "Ride For Mental Health",
+      "placeId": "ChIJ-aSO5yRbwokRK3ndFtGnEqk",
+      "addedAt": "2026-07-12T22:58:19.148Z",
+      "source": "review"
+    },
+    {
+      "name": "Institute for Career and Technical Education",
+      "placeId": "ChIJ__xEa-pbwokRrt_sUtdLXM0",
+      "addedAt": "2026-07-12T22:58:25.179Z",
+      "source": "review"
+    },
+    {
+      "name": "wright ingraham institute",
+      "placeId": "ChIJc2pojgBbwokRMEJlx_P6KYQ",
+      "addedAt": "2026-07-12T22:58:28.612Z",
+      "source": "review"
+    },
+    {
+      "name": "Brooklyn Superhero Supply Co.",
+      "placeId": "ChIJrx1Adf5awokRKk2rFeT_kNk",
+      "addedAt": "2026-07-12T22:58:33.212Z",
+      "source": "review"
+    },
+    {
+      "name": "Little Free Library",
+      "placeId": "ChIJy4fdAgBbwokRwpGL_D3Gox0",
+      "addedAt": "2026-07-12T22:58:48.097Z",
+      "source": "review"
+    },
+    {
+      "name": "The Ripped Bodice",
+      "placeId": "ChIJPyEC6zdbwokRjJLnHctI-AM",
+      "addedAt": "2026-07-12T22:58:54.366Z",
+      "source": "review"
+    },
+    {
+      "name": "Sprout Enterprise",
+      "placeId": "ChIJ__9s6qlbwokRE18dzYtY_IA",
+      "addedAt": "2026-07-12T22:59:02.401Z",
+      "source": "review"
+    },
+    {
+      "name": "Gowanus Canal Conservancy",
+      "placeId": "ChIJT8Ob_vlawokRQy70UA98tXM",
+      "addedAt": "2026-07-12T22:59:05.327Z",
+      "source": "review"
+    },
+    {
+      "name": "Galaxy Collectibles",
+      "placeId": "ChIJFeBKrf1awokRVBC1nS1JNb0",
+      "addedAt": "2026-07-12T22:59:08.523Z",
+      "source": "review"
+    },
+    {
+      "name": "Collective Hands Foundation",
+      "placeId": "ChIJfY448PxawokRgDO70_u1VVM",
+      "addedAt": "2026-07-12T22:59:10.732Z",
+      "source": "review"
+    },
+    {
+      "name": "Friends of Privately-Owned Public Space",
+      "placeId": "ChIJI5Zxax1bwokRvFJ0e43PAqc",
+      "addedAt": "2026-07-12T22:59:13.181Z",
+      "source": "review"
+    },
+    {
+      "name": "The Center for Urban Pedagogy",
+      "placeId": "ChIJG31cO_9awokR-gtxpMwrZpw",
+      "addedAt": "2026-07-12T22:59:16.110Z",
+      "source": "review"
+    },
+    {
+      "name": "Baltic Street Into Action",
+      "placeId": "ChIJuXUUlABbwokR64O0dcDOtj0",
+      "addedAt": "2026-07-12T22:59:21.215Z",
+      "source": "review"
+    },
+    {
+      "name": "Voices of Women Organizing",
+      "placeId": "ChIJN4_DeqhbwokRCd6CMmYYF7E",
+      "addedAt": "2026-07-12T22:59:22.205Z",
+      "source": "review"
+    },
+    {
+      "name": "Green Generations",
+      "placeId": "ChIJAQD7vRxbwokRs-Co3JitEA8",
+      "addedAt": "2026-07-12T22:59:28.402Z",
+      "source": "review"
+    },
+    {
+      "name": "African-American Public Radio Consortium",
+      "placeId": "ChIJ3fLS3adbwokRcpiFsBLncS8",
+      "addedAt": "2026-07-12T22:59:32.862Z",
+      "source": "review"
+    },
+    {
+      "name": "Enable Mothers",
+      "placeId": "ChIJsQKdnx1bwokRp4N6VJv34C0",
+      "addedAt": "2026-07-12T22:59:38.799Z",
+      "source": "review"
+    },
+    {
+      "name": "Spaceworks NYC, Inc.",
+      "placeId": "ChIJ30CebVVawokRRIJJkfNhQ74",
+      "addedAt": "2026-07-12T22:59:41.475Z",
+      "source": "review"
+    },
+    {
+      "name": "Park Slope Armory YMCA",
+      "placeId": "ChIJmTqCd-JawokRH5w_h5wy7TM",
+      "addedAt": "2026-07-12T22:59:43.291Z",
+      "source": "review"
+    },
+    {
+      "name": "Library-On-Call",
+      "placeId": "ChIJK_voIwhbwokR4mSFeHyG67Q",
+      "addedAt": "2026-07-12T22:59:45.796Z",
+      "source": "review"
+    },
+    {
+      "name": "More Than Surviving",
+      "placeId": "ChIJM-rcJfVbwokRNIyhuJYySNU",
+      "addedAt": "2026-07-12T22:59:53.817Z",
+      "source": "review"
+    },
+    {
+      "name": "CHiPS",
+      "placeId": "ChIJr1LR1apbwokRGUWUp0mD0aU",
+      "addedAt": "2026-07-12T22:59:54.867Z",
+      "source": "review"
+    },
+    {
+      "name": "Dare2Draw",
+      "placeId": "ChIJdf7tngv2wokRHxULX7Frwes",
+      "addedAt": "2026-07-12T22:59:56.904Z",
+      "source": "review"
+    },
+    {
+      "name": "Willie Mae Rock Camp",
+      "placeId": "ChIJKbQ2qqJbwokRtAsiztS8VJ8",
+      "addedAt": "2026-07-12T22:59:58.089Z",
+      "source": "review"
+    },
+    {
+      "name": "Ezra Jack Keats Foundation",
+      "placeId": "ChIJC5aJRtBEwokREbSFhDKdHz8",
+      "addedAt": "2026-07-12T22:59:59.822Z",
+      "source": "review"
+    },
+    {
+      "name": "Phase 4",
+      "placeId": "ChIJ56q-MKZbwokRaAY8DLAJ8BA",
+      "addedAt": "2026-07-12T23:00:04.099Z",
+      "source": "review"
+    },
+    {
+      "name": "Fifth Avenue Committee",
+      "placeId": "ChIJExc-MqtbwokRTd4xQkL6S7o",
+      "addedAt": "2026-07-12T23:00:05.773Z",
+      "source": "review"
+    },
+    {
+      "name": "Nuclear Voices",
+      "placeId": "ChIJD88XsGNbwokRQe52gnJ6TLs",
+      "addedAt": "2026-07-12T23:00:14.249Z",
+      "source": "review"
+    },
+    {
+      "name": "Boys & Girlstown of Ny",
+      "placeId": "ChIJN-cqQa9bwokR6sXsAz8RnsI",
+      "addedAt": "2026-07-12T23:00:15.955Z",
+      "source": "review"
+    },
+    {
+      "name": "Little Free Library",
+      "placeId": "ChIJD2OBCgBbwokRpqQ_5pnrhGw",
+      "addedAt": "2026-07-12T23:00:18.332Z",
+      "source": "review"
+    },
+    {
+      "name": "Guitar Among Others Inc",
+      "placeId": "ChIJUTAET_tawokRJ3hcHVp71N0",
+      "addedAt": "2026-07-12T23:00:22.072Z",
+      "source": "review"
+    },
+    {
+      "name": "Music that Makes Community",
+      "placeId": "ChIJt2wN_PhawokRPD_Bij7KUJk",
+      "addedAt": "2026-07-12T23:00:24.305Z",
+      "source": "review"
+    },
+    {
+      "name": "Student Dream",
+      "placeId": "ChIJb0wD_6ZZwokRrKHRR-hwOJE",
+      "addedAt": "2026-07-12T23:00:28.648Z",
+      "source": "review"
+    },
+    {
+      "name": "Petals-N-Belles",
+      "placeId": "ChIJF7o7k6VbwokRd1R0YyWVcuI",
+      "addedAt": "2026-07-12T23:00:30.844Z",
+      "source": "review"
+    },
+    {
+      "name": "Reentry Essentials, Inc.",
+      "placeId": "ChIJAQAQafhawokRoOqcgBPZxE4",
+      "addedAt": "2026-07-12T23:00:34.109Z",
+      "source": "review"
+    },
+    {
+      "name": "Project Reach Youth",
+      "placeId": "ChIJ9Z07y-RawokRxnSJAFzcgjo",
+      "addedAt": "2026-07-12T23:00:36.265Z",
+      "source": "review"
+    },
+    {
+      "name": "Look & Listen",
+      "placeId": "ChIJY_U_Y6xbwokRt5JcTLvKlwI",
+      "addedAt": "2026-07-12T23:00:37.918Z",
+      "source": "review"
+    },
+    {
+      "name": "Gowanus Dredgers Canoe Club Boathouse",
+      "placeId": "ChIJ2-MXHlZawokRDV6IAD9BOSE",
+      "addedAt": "2026-07-12T23:00:39.949Z",
+      "source": "review"
+    },
+    {
+      "name": "Writing Our Own Stories Inc.",
+      "placeId": "ChIJ-UJUhphbwokRpxGjYyuLQIU",
+      "addedAt": "2026-07-12T23:00:41.941Z",
+      "source": "review"
+    },
+    {
+      "name": "International Medical Response",
+      "placeId": "ChIJ0e5Woh5bwokRGgWFq3um8DQ",
+      "addedAt": "2026-07-12T23:00:47.248Z",
+      "source": "review"
+    },
+    {
+      "name": "Park Slope Fifth Avenue Business Improvement District (BID)",
+      "placeId": "ChIJR9as-yYm1QYRH7UZpxlD-KE",
+      "addedAt": "2026-07-12T23:00:52.510Z",
+      "source": "review"
+    },
+    {
+      "name": "Rebuilding Together NYC",
+      "placeId": "ChIJh_KWa4pawokR9PmNlM0deq0",
+      "addedAt": "2026-07-12T23:00:56.762Z",
+      "source": "review"
+    },
+    {
+      "name": "Van Alen Institute",
+      "placeId": "ChIJi47jf6RZwokRPsJ54_jlsAs",
+      "addedAt": "2026-07-12T23:01:01.177Z",
+      "source": "review"
+    },
+    {
+      "name": "POWERHOUSE on 8th",
+      "placeId": "ChIJ9W3UHR1bwokR72-my3eBte8",
+      "addedAt": "2026-07-12T23:05:55.366Z",
+      "source": "review"
+    },
+    {
+      "name": "Troubled Sleep",
+      "placeId": "ChIJMYVbtJJbwokReqmCXEllVlw",
+      "addedAt": "2026-07-12T23:06:06.378Z",
+      "source": "review"
+    },
+    {
+      "name": "¡CHAU, LUNA!",
+      "placeId": "ChIJndtrAsVbwokR-0SzPPC_3PI",
+      "addedAt": "2026-07-12T23:06:12.075Z",
+      "source": "review"
+    },
+    {
+      "name": "Honey & Wax Booksellers",
+      "placeId": "ChIJ30CebVVawokRmWKnHCeAJyM",
+      "addedAt": "2026-07-12T23:07:25.061Z",
+      "source": "review"
+    }
+  ]
+}

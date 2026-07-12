@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Discover — Kate's Kafes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="review.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="top-main">
+        <p class="eyebrow"><a href="/">Kate's Kafes</a></p>
+        <h1>Discover</h1>
+        <p class="lede" id="meta">Loading…</p>
+      </div>
+      <div class="top-actions">
+        <div class="counts" id="counts" hidden>
+          <span class="count count-add"><strong id="count-yes">0</strong> add</span>
+          <span class="count count-unratable"><strong id="count-unratable">0</strong> unratable</span>
+          <span class="count count-pass"><strong id="count-no">0</strong> pass</span>
+          <span class="count count-left"><strong id="count-left">0</strong> left</span>
+        </div>
+        <button type="button" class="btn btn-ghost" id="btn-reset" hidden>
+          Reset
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <p class="keys" id="keys" hidden>
+        Keyboard: <kbd>Y</kbd> add · <kbd>U</kbd> unratable · <kbd>N</kbd> pass ·
+        <kbd>←</kbd> <kbd>→</kbd> photos
+      </p>
+      <div id="status" class="status" role="status"></div>
+      <div class="layout">
+        <div class="main-col">
+          <div class="tabs" id="tabs" hidden>
+            <button type="button" class="tab is-active" data-tab="queue">
+              To review <span class="tab-count" id="tab-queue">0</span>
+            </button>
+            <button type="button" class="tab" data-tab="yes">
+              Added <span class="tab-count" id="tab-yes">0</span>
+            </button>
+            <button type="button" class="tab" data-tab="unratable">
+              Unratable <span class="tab-count" id="tab-unratable">0</span>
+            </button>
+            <button type="button" class="tab" data-tab="no">
+              Passed <span class="tab-count" id="tab-no">0</span>
+            </button>
+          </div>
+          <div id="list"></div>
+        </div>
+        <aside id="sidebar" class="side-col" hidden></aside>
+      </div>
+
+      <section class="export" id="export" hidden>
+        <div class="export-head">
+          <div>
+            <h2>Ready for your sheet</h2>
+            <p>Rows you Add or mark Unratable show up here. Copy and paste into Google Sheets.</p>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-copy" disabled>
+            Copy for Sheets
+          </button>
+        </div>
+        <div class="export-table-wrap">
+          <table class="export-table" id="export-table">
+            <thead id="export-thead"></thead>
+            <tbody id="export-tbody"></tbody>
+          </table>
+          <p class="export-empty" id="export-empty">No rows yet — Add or mark Unratable above.</p>
+        </div>
+        <p class="export-note" id="copy-note" hidden></p>
+      </section>
+    </main>
+
+    <dialog id="note-dialog" class="note-dialog">
+      <form method="dialog" id="note-form">
+        <h2>Mark unratable</h2>
+        <p class="note-dialog-place" id="note-place"></p>
+        <label class="note-label" for="note-input">Why?</label>
+        <textarea id="note-input" rows="3" placeholder="e.g. chain, not really a cafe, wrong pin…" required></textarea>
+        <div class="note-actions">
+          <button type="submit" value="cancel" class="btn btn-ghost">Cancel</button>
+          <button type="submit" value="confirm" class="btn btn-unratable">Add as unratable</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="lightbox" class="lightbox">
+      <form method="dialog">
+        <button type="submit" class="lightbox-close" aria-label="Close">×</button>
+      </form>
+      <div class="lightbox-stage">
+        <button type="button" class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous photo">
+          ‹
+        </button>
+        <img id="lightbox-img" alt="" />
+        <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photo">
+          ›
+        </button>
+      </div>
+      <p id="lightbox-cap" class="lightbox-cap"></p>
+    </dialog>
+
+    <script src="/js/config.js"></script>
+    <script src="review.js"></script>
+  </body>
+</html>

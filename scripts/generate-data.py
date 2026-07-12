@@ -242,7 +242,6 @@ def main() -> None:
                 "notes": notes,
                 "maps_url": maps_url or "",
                 "status": status,
-                "auto_added": False,
                 "tried": tried,
             }
         )
@@ -275,7 +274,6 @@ def main() -> None:
         "notes",
         "maps_url",
         "status",
-        "auto_added",
         "tried",
     ]
     with (data_dir / "cafes.csv").open("w", newline="", encoding="utf-8") as handle:
@@ -283,7 +281,6 @@ def main() -> None:
         writer.writeheader()
         for cafe in cafes:
             row = {key: cafe[key] for key in fieldnames}
-            row["auto_added"] = "FALSE"
             writer.writerow(row)
 
     missing = [cafe["name"] for cafe in cafes if cafe["lat"] is None]

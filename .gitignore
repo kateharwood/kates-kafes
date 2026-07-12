@@ -11,3 +11,12 @@ Thumbs.db
 .idea/
 .vscode/
 js/config.js
+
+# Discover workflow (generated / local)
+data/discover/latest.json
+
+# Discover debug / trial artifacts
+data/places-cafe-vs-app.json
+data/places-cafe-trial.json
+data/places-cafe-trial.md
+data/cafes-primary-types.json

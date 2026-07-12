@@ -48,7 +48,6 @@ Open [http://localhost:3000](http://localhost:3000).
 | `notes` | Free text |
 | `maps_url` | Google Maps link |
 | `status` | `active`, `closed`, or `unratable` |
-| `auto_added` | `TRUE` only for auto-discovered cafes (future feature) |
 | `tried` | `TRUE`/`FALSE` — optional; site derives this from rating |
 
 **Rating scale:** 0 = never again · 1 = meh · 2 = would regularly go · 3 = a fave
@@ -95,13 +94,31 @@ Apply to **Production**, **Preview**, and **Development** so all deploys work.
 
 Buy a domain (Namecheap, Google Domains, etc.) and connect it in Vercel → **Settings → Domains**.
 
-## Stretch goal: auto-discover new cafes (not built yet)
+## Discover new cafes (manual review workflow)
 
-Planned behavior:
+Every so often, ask the agent to **run discover**, or run it yourself:
 
-- Scan weekly within ~25 min walk (~2 km) of 7th & 2nd St
-- New places auto-append to sheet with `status=active`, blank rating, `auto_added=TRUE`
-- Show as blue markers with dashed ring until you review
+```bash
+npm run discover
+```
+
+That scans ~1.5 km around 7th & 2nd with hex-tiled Places Nearby Search (`cafe`, `coffee_shop`, `brewery`, `juice_shop`, `bakery`, `non_profit_organization`, `library`, `book_store`), drops blocklisted chains, skips places already on your **published Google Sheet** (`SHEET_CSV_URL` in `js/config.js`), keeps walks **under 25 minutes**, and pulls up to **10 photos** per candidate. It also lists cafes **already on your sheet that the search missed** (skips `unratable` and `closed`). Discover will not run without a working sheet URL.
+
+Then review locally:
+
+```bash
+npm start
+```
+
+Open [http://localhost:3000/discover/](http://localhost:3000/discover/).
+
+1. Review **New** places (**Add** / **Unratable** append rows below; **Pass** → blocklist). **Missed by search** is a compact sidebar list for reference only.
+2. **Copy for Sheets** (or select the table) and paste into your Google Sheet.
+3. Columns match your sheet (`data/cafes.csv`). Unratable rows use `status=unratable` and include your why-note in `notes`.
+
+Use `npm start` (Node server) for review so Nos can be written to disk. Yes rows come pre-filled with `status=active`, blank rating, walk time/bucket, lat/lng, Maps URL.
+
+Requires **Places API (New)** and **Routes API** on your key. A browser-restricted key works for local runs (the script sends a `localhost:3000` referrer).
 
 ## Regenerate local data from Google Doc
 

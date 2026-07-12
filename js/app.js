@@ -528,20 +528,11 @@
     return isMobileLayout() ? 36 : 28;
   }
 
-  function makeMarkerIcon(color, dashed) {
+  function makeMarkerIcon(color) {
     const size = getMarkerSize();
     const center = size / 2;
     const outerRadius = center - 1;
     const innerRadius = outerRadius - 2.5;
-    const ring = dashed
-      ? '<circle cx="' +
-        center +
-        '" cy="' +
-        center +
-        '" r="' +
-        (outerRadius - 0.5) +
-        '" fill="none" stroke="#1565c0" stroke-width="2" stroke-dasharray="4 3"/>'
-      : "";
     const svg =
       '<svg xmlns="http://www.w3.org/2000/svg" width="' +
       size +
@@ -552,7 +543,6 @@
       " " +
       size +
       '">' +
-      ring +
       '<circle cx="' +
       center +
       '" cy="' +
@@ -572,13 +562,22 @@
 
   function buildLegendScale() {
     const scale = document.getElementById("legend-scale");
+    const labels = document.getElementById("legend-scale-labels");
     if (!scale) return;
     scale.innerHTML = "";
+    if (labels) labels.innerHTML = "";
     for (let rating = 0; rating <= 3; rating += 0.5) {
       const span = document.createElement("span");
       span.style.background = interpolateColor(rating);
       span.title = RATING_LABELS[rating] || String(rating);
       scale.appendChild(span);
+
+      if (labels) {
+        const label = document.createElement("span");
+        label.textContent = String(rating);
+        label.title = RATING_LABELS[rating] || String(rating);
+        labels.appendChild(label);
+      }
     }
   }
 
@@ -690,7 +689,6 @@
         notes: record.notes || "",
         maps_url: record.maps_url || "",
         status: record.status || "active",
-        auto_added: parseBoolean(record.auto_added),
         tried: parseBoolean(record.tried),
       };
     });
@@ -788,9 +786,6 @@
 
     cafeCardBadges.innerHTML = "";
     const badges = [];
-    if (cafe.auto_added) {
-      badges.push('<span class="badge badge-auto">Auto-added</span>');
-    }
     if (cafe.status === "closed" || cafe.status === "unratable") {
       badges.push(
         '<span class="badge badge-closed">' +
@@ -890,7 +885,7 @@
         position: { lat: cafe.lat, lng: cafe.lng },
         map,
         title: cafe.name,
-        icon: makeMarkerIcon(markerColor(cafe), cafe.auto_added),
+        icon: makeMarkerIcon(markerColor(cafe)),
       });
 
       marker.addListener("click", () => {
@@ -909,8 +904,13 @@
     }
 
     const countText = visible.length + " of " + allCafes.length + " kafes shown";
-    countEl.textContent = countText;
-    if (countFooterEl) countFooterEl.textContent = countText;
+    if (isMobileLayout()) {
+      countEl.textContent = "";
+      if (countFooterEl) countFooterEl.textContent = countText;
+    } else {
+      countEl.textContent = countText;
+      if (countFooterEl) countFooterEl.textContent = "";
+    }
 
     if (visible.length && !hasInitialFit) {
       const bounds = new google.maps.LatLngBounds();
